@@ -1,6 +1,7 @@
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import PropTypes from 'prop-types';
 import { BCImageRenderer } from './BCImageRenderer';
+import '../styles/BlockControls.scss'
 
 const BCImagePicker = ({
     imageId,
