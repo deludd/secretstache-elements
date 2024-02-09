@@ -1,4 +1,4 @@
-export const cleanSvgString = (svgString) => {
+const cleanSvgString = (svgString) => {
     if (svgString.startsWith('<?xml')) {
         const endOfXml = svgString.indexOf('?>');
 
@@ -11,3 +11,5 @@ export const cleanSvgString = (svgString) => {
 
     return svgString;
 };
+
+export default cleanSvgString;

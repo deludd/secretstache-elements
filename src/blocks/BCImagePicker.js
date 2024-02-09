@@ -1,7 +1,8 @@
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import PropTypes from 'prop-types';
+import { BCImageRenderer } from './BCImageRenderer';
 
-export const BCImagePicker = ({
+const BCImagePicker = ({
     imageId,
     imageUrl,
     imageAlt,
@@ -26,7 +27,7 @@ export const BCImagePicker = ({
                         onSelectClick={open}
                     />
                 )}
-                { ...other }
+                {...other}
             />
         </MediaUploadCheck>
     );
@@ -40,3 +41,5 @@ BCImagePicker.propTypes = {
     onSelect: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
 };
+
+export default BCImagePicker;

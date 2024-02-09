@@ -1,7 +1,7 @@
 import { Button } from '@wordpress/components';
 import PropTypes from 'prop-types';
 
-export const BCImageRenderer = ({
+const BCImageRenderer = ({
     imageId,
     imageUrl,
     imageAlt,
@@ -47,3 +47,5 @@ BCImageRenderer.propTypes = {
     onRemoveClick: PropTypes.func.isRequired,
     onSelectClick: PropTypes.func.isRequired,
 };
+
+export default BCImageRenderer;
