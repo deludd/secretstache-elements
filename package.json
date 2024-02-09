@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "files": [
+    "src/blocks",
+    "src/utils",
+    "src/styles"
+  ],
   "scripts": {
     "lint:fix": "eslint --fix --color",
     "format": "prettier --write"

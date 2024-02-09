@@ -1,0 +1,169 @@
+.block-editor__container {
+    .react-select {
+        &__input {
+            box-shadow: none !important;
+        }
+    }
+
+    .bc-selected-image-wrapper {
+        max-width: 200px;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .bc-selected-image {
+        width: 100%;
+    }
+
+    .bc-select-btn,
+    .bc-remove-btn {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        display: flex;
+    }
+
+    .bc-images-control-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* Two images per row */
+        gap: 10px;
+        margin-bottom: 20px;
+
+        &__item {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            .image-preview {
+                width: 100%;
+                height: auto;
+                border: 1px solid #ddd;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                border-radius: 4px;
+                object-fit: scale-down;
+            }
+
+            .image-actions {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background-color: rgba(255, 255, 255, 0.9);
+                display: none;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+
+            &:hover {
+                .image-actions {
+                    display: flex;
+                }
+            }
+
+            .image-action-button {
+                margin: 5px;
+                width: 32px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #f0f0f0;
+                border-radius: 50%;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+                border: none;
+                cursor: pointer;
+
+                &:hover,
+                &:focus {
+                    background-color: #e0e0e0;
+                }
+            }
+        }
+    }
+
+    .bc-url-input {
+        input {
+            width: 100%;
+            border: 1px solid #949494;
+        }
+    }
+
+    .bc-image-wrapper {
+        position: relative;
+        height: auto;
+        align-self: start;
+
+        &__actions {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+            gap: rem-calc(20);
+            padding: rem-calc(5) rem-calc(15);
+            z-index: 20;
+
+            @include breakpoint(medium) {
+                gap: rem-calc(15px);
+            }
+        }
+
+        &__btn {
+            font-size: rem-calc(14) !important;
+            backdrop-filter: blur(16px) saturate(180%);
+            background: hsla(0, 0%, 100%, .75);
+            flex-grow: 1;
+            justify-content: center;
+            max-width: rem-calc(130);
+
+            @include breakpoint(medium) {
+                padding: rem-calc(5px);
+            }
+        }
+
+        &__overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
+        }
+
+        &:hover {
+            .bc-image-wrapper__actions {
+                display: flex;
+            }
+
+            .bc-image-wrapper__overlay {
+                display: block;
+            }
+        }
+    }
+
+    .components-notice {
+        color: var(--black);
+    }
+
+    .bc-spinner {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: rem-calc(25);
+        height: rem-calc(25);
+    }
+
+    .bc-notice {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
