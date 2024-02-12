@@ -1,40 +1,63 @@
-import React from 'react';
-import { InspectorControls, useBlockProps, MediaPlaceholder, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import React, { useState, useEffect } from 'react';
+import { useBlockProps, InspectorControls, MediaPlaceholder, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { Button, Icon, PanelBody } from '@wordpress/components';
 import { edit as editIcon, trash as trashIcon } from '@wordpress/icons';
+
 import { BCImagePicker } from './BCImagePicker.js';
 import { cleanSvgString } from '../utils/cleanSvgString.js';
 import '../styles/BlockControls.scss'
 
-const SvgImageHandler = ({ imageId, imageUrl, imageAlt, svgCode, setAttributes }) => {
+export const SvgImageHandler = ({
+  imageId,
+  imageUrl,
+  imageAlt,
+  svgCode,
+  setAttributes,
+}) => {
+  const [processedSvg, setProcessedSvg] = useState(svgCode);
+
   const hasImage = imageId && imageUrl;
   const isSvg = hasImage && svgCode;
 
-  const onRemoveImage = () => setAttributes({
-    imageId: null,
-    imageUrl: '',
-    imageAlt: '',
-    svgCode: '',
-  });
-
   const onSelectImage = (media) => {
-    setAttributes({
-      imageId: media.id,
-      imageUrl: media.url,
-      imageAlt: media.alt,
-    });
-
     if (media.mime === 'image/svg+xml') {
       fetch(media.url)
         .then(response => response.text())
         .then(svgString => {
           const cleanedSvgString = cleanSvgString(svgString);
-          setAttributes({ svgCode: cleanedSvgString });
+          setAttributes({
+            imageId: media.id,
+            imageUrl: media.url,
+            imageAlt: media.alt,
+            svgCode: cleanedSvgString,
+          });
+          setProcessedSvg(cleanedSvgString);
         });
     } else {
-      setAttributes({ svgCode: '' });
+      setAttributes({
+        imageId: media.id,
+        imageUrl: media.url,
+        imageAlt: media.alt,
+        svgCode: '',
+      });
+      setProcessedSvg('');
     }
   };
+
+  const onRemoveImage = () => {
+    setAttributes({ imageId: null, imageUrl: '', imageAlt: '', svgCode: '' });
+    setProcessedSvg('');
+  };
+
+  useEffect(() => {
+    if (svgCode && !processedSvg) {
+      fetch(imageUrl)
+        .then((response) => response.text())
+        .then((svgString) => setProcessedSvg(cleanSvgString(svgString)))
+        .catch((error) => console.error('Error fetching SVG:', error));
+    }
+  }, [svgCode, imageUrl]);
+
 
   return (
     <>
@@ -49,39 +72,55 @@ const SvgImageHandler = ({ imageId, imageUrl, imageAlt, svgCode, setAttributes }
           />
         </PanelBody>
       </InspectorControls>
-      <div {...useBlockProps()}>
+
+      <div {...useBlockProps()} >
         <MediaUploadCheck>
           <MediaUpload
             onSelect={onSelectImage}
             allowedTypes={['image']}
             value={imageId}
-            render={({ open }) => (
-              hasImage ? (
+            render={({ open }) => {
+              return hasImage ? (
                 <div className="bc-image-wrapper">
-                  {isSvg ? (
-                    <div
-                      className="svg-container"
-                      dangerouslySetInnerHTML={{ __html: svgCode }}
-                    />
-                  ) : (
-                    <img src={imageUrl} alt={imageAlt || "icon"} />
-                  )}
+                  {
+                    hasImage && (
+                      isSvg
+                        ? (
+                          <div
+                            className="svg-container"
+                            dangerouslySetInnerHTML={{ __html: processedSvg }}
+                          />
+                        ) : <img src={imageUrl} alt={imageAlt || "icon"} />
+                    )
+                  }
+
                   <div className="bc-image-wrapper__actions">
                     <Button
                       className="bc-image-wrapper__btn bc-image-wrapper__replace-btn"
                       type="button"
                       onClick={open}
                     >
-                      <Icon icon={editIcon} size={20} className="bc-image-wrapper__btn-icon" />
+                      <Icon
+                        icon={editIcon}
+                        size={20}
+                        className="bc-image-wrapper__btn-icon"
+                      />
                     </Button>
+
                     <Button
                       className="bc-image-wrapper__btn bc-image-wrapper__remove-btn"
                       type="button"
                       onClick={onRemoveImage}
                     >
-                      <Icon icon={trashIcon} size={20} className="bc-image-wrapper__btn-icon" />
+                      <Icon
+                        icon={trashIcon}
+                        size={20}
+                        className="bc-image-wrapper__btn-icon"
+                      />
                     </Button>
                   </div>
+
+
                   <div className="bc-image-wrapper__overlay" />
                 </div>
               ) : (
@@ -91,8 +130,8 @@ const SvgImageHandler = ({ imageId, imageUrl, imageAlt, svgCode, setAttributes }
                   allowedTypes={['image', 'image/svg+xml']}
                   labels={{ title: 'Icon Image' }}
                 />
-              )
-            )}
+              );
+            }}
           />
         </MediaUploadCheck>
       </div>
