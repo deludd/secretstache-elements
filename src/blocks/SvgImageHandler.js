@@ -5,7 +5,6 @@ import { edit as editIcon, trash as trashIcon } from '@wordpress/icons';
 
 import BCImagePicker from './BCImagePicker';
 import cleanSvgString from '../utils/cleanSvgString';
-import '../styles/BlockControls.scss'
 
 export const SvgImageHandler = ({
   imageId,

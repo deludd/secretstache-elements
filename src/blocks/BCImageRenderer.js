@@ -1,5 +1,7 @@
+import React from 'react';
 import { Button } from '@wordpress/components';
 import PropTypes from 'prop-types';
+// import '../styles/BlockControls.scss'
 
 const BCImageRenderer = ({
     imageId,
