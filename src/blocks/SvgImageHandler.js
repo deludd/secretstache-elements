@@ -3,8 +3,8 @@ import { useBlockProps, InspectorControls, MediaPlaceholder, MediaUpload, MediaU
 import { Button, Icon, PanelBody } from '@wordpress/components';
 import { edit as editIcon, trash as trashIcon } from '@wordpress/icons';
 
-import { BCImagePicker } from './BCImagePicker.js';
-import { cleanSvgString } from '../utils/cleanSvgString.js';
+import BCImagePicker from './BCImagePicker';
+import cleanSvgString from '../utils/cleanSvgString';
 import '../styles/BlockControls.scss'
 
 export const SvgImageHandler = ({
